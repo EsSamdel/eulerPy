@@ -1,0 +1,20 @@
+<config>
+
+  <discretisation>
+    <sparam key="numericalFlux" val="slau" />
+    <iparam key="ordre" val="1" />
+  </discretisation>
+
+  <time>
+    <sparam key="timeDiscretisation" val="explicit" />
+    <fparam key="timeStep" val="0.00001" />
+    <fparam key="cfl" val="0.1" />
+    <fparam key="tmax" val="0.002914094" />
+    <fparam key='writeFrequence' val='0.001' />
+  </time>
+
+  <icbc>
+    <sparam key="initFunction" val="acousticPulse" />
+  </icbc>
+
+</config>
