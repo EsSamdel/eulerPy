@@ -36,18 +36,22 @@ def explicit(dat, mesh, path):
         if t + Dt > tmax:
             Dt = tmax - t
 
-        # fonction qui depend de l'ordre!
-
-
         # Increment time :
         t += Dt
         timeStep += 1
 
         # Calculating Flux :
-        flux, uPast = computeFluxFromVector(numericalFlux, mesh.state, Dt, mesh.Dx, uPast, 0.5)
+        residu = 0
+        if order == 1:
+            residu, uPast = computeFluxFromVector(numericalFlux, mesh.state, Dt, mesh.Dx, uPast, 0.5)
+
+        elif order == 2: # in this case we can't use inertia terms!
+            U = array(mesh.state)
+            k1 = U - 0.5*Dt* computeFluxFromVector(numericalFlux, U, Dt    , mesh.Dx)[0]
+            residu = computeFluxFromVector(numericalFlux, k1, 0.5*Dt, mesh.Dx)[0]
 
         # Update solution :
-        mesh.setStateVector(mesh.state - Dt * flux)
+        mesh.setStateVector(mesh.state - Dt*residu)
         mesh.computeCellsState()
 
         # Testing values :
